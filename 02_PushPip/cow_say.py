@@ -24,12 +24,13 @@ pars.add_argument('-t', default='', action='store_true')
 pars.add_argument('-w', default='', action='store_true')
 pars.add_argument('-y', default='', action='store_true')
 
-pars.add_argument('str')
+pars.add_argument('str', nargs='?')
 
 args = pars.parse_args()
 
 if args.l:
-    print(cowsay.list_cows())
+    l = sorted(cowsay.list_cows())
+    print(*l)
 else:
     preset = check(args.b, 'b') + check(args.d, 'd') + check(args.g, 'g') + check(args.p, 'p')
     preset += check(args.s, 's') + check(args.t, 't') + check(args.w, 'w') + check(args.y, 'y')
