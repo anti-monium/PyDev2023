@@ -1,6 +1,7 @@
 import random
 import sys
 import urllib.request
+import cowsay
 
 def bullscows(guess: str, secret: str) -> (int, int):
     bulls = 0
@@ -27,7 +28,9 @@ def gameplay(ask: callable, inform: callable, words: list[str]) -> int:
 
 
 def ask(prompt: str, valid: list[str] = None) -> str:
-    wrd = input(prompt)
+    rand_cow = cowsay.list_cows()[random.randint(0, len(cowsay.list_cows()) - 1)]
+    print(cowsay.cowsay(prompt, cow=rand_cow))
+    wrd = input()
     if valid:
         while wrd not in valid:
             wrd = input(prompt)
@@ -35,7 +38,9 @@ def ask(prompt: str, valid: list[str] = None) -> str:
     
     
 def inform(format_string: str, bulls: int, cows: int) -> None:
-    print(format_string.format(bulls, cows))
+    rand_cow = cowsay.list_cows()[random.randint(0, len(cowsay.list_cows()) - 1)]
+    print(cowsay.cowsay(format_string.format(bulls, cows), cow=rand_cow))
+    
     
 if len(sys.argv) == 3:
     voc, ln = sys.argv[1], int(sys.argv[2])
