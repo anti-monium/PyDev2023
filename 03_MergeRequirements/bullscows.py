@@ -28,8 +28,8 @@ def gameplay(ask: callable, inform: callable, words: list[str]) -> int:
 
 
 def ask(prompt: str, valid: list[str] = None) -> str:
-    rand_cow = cowsay.list_cows()[random.randint(0, len(cowsay.list_cows()) - 1)]
-    print(cowsay.cowsay(prompt, cow=rand_cow))
+    creeper = cowsay.read_dot_cow(open('creeper.cow', 'r'))
+    print(cowsay.cowsay(prompt, cowfile=creeper))
     wrd = input()
     if valid:
         while wrd not in valid:
