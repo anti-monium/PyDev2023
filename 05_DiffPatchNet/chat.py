@@ -31,11 +31,23 @@ async def chat(reader, writer):
                             me = cow_name
                             free_cows.remove(cow_name)
                         else:
-                            await clients[me].put('Name already in use')
+                            await clients[me].put('Name already in use. Use \'cows\' to list available names.')
                     case ['say', cow_name, msg]:
-                        pass
+                        if ':' in me:
+                            await clients[me].put('You are not authorized. Use \'cows\' to see available names and then \'login\'.')
+                        elif cow_name in clients.keys():
+                            msg = cowsay.cowsay(msg, cow=me)
+                            await clients[cow_name].put(msg)
+                        else:
+                            await clients[me].put('User with this name does not exist. Use \'who\' to list users.')
                     case ['yield', msg]:
-                        pass
+                        if ':' in me:
+                            await clients[me].put('You are not authorized. Use \'cows\' to see available names and then \'login\'.')
+                        else:
+                            msg = cowsay.cowsay(msg, cow=me)
+                            for cow in clients.keys():
+                                if cow != me:
+                                    await clients[cow].put(msg)
                     case ['quit']:
                         pass
                     case _:
