@@ -49,9 +49,11 @@ async def chat(reader, writer):
                                 if cow != me:
                                     await clients[cow].put(msg)
                     case ['quit']:
-                        pass
+                        free_cows.add(me)
+                        del clients[me]
+                        print(f'{me} logged out')
                     case _:
-                        pass
+                        await clients[me].put('<<< error >>>')
             elif q is receive:
                 receive = asyncio.create_task(clients[me].get())
                 writer.write(f"{q.result()}\n".encode())
@@ -59,7 +61,8 @@ async def chat(reader, writer):
     send.cancel()
     receive.cancel()
     print(me, "DONE")
-    del clients[me]
+    if me in clients.keys():
+        del clients[me]
     writer.close()
     await writer.wait_closed()
 
